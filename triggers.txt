@@ -1,0 +1,69 @@
+Trigger
+
+1)
+delimiter //
+create trigger parentHistory after insert on parent
+for each row
+begin
+insert into parenthistory 
+values(default,new.pid,
+new.address ,null,new.adharNo,new.email,null,new.firstName,new.lastName,new.mobileNo,null,"insert");
+end //
+
+
+
+2)
+
+delimiter //
+create trigger parentUpdateHistory before update on parent
+for each row
+begin
+insert into parenthistory 
+values(default,new.pid,
+new.address ,old.address,new.adharNo,new.email,old.email,new.firstName,new.lastName,new.mobileNo,old.mobileNo,"update");
+end //
+
+
+3)
+
+delimiter //
+create trigger parentDeleteHistory before delete on parent
+for each row
+begin
+insert into parenthistory 
+values(default,old.pid,
+null,old.address,null,null,old.email,old.firstName,old.lastName,null,old.mobileNo,"delete");
+end //
+
+4)
+
+delimiter //
+create trigger hospitalHistory after insert on hospital
+for each row
+begin
+insert into hospitalhistory 
+values(default,new.hid,
+new.address ,null,new.contactNo,null,new.creationDate,new.email,null,new.hname,new.regNo,"insert");
+end //
+
+5)
+delimiter //
+create trigger hospitalupdateHistory before update on hospital
+for each row
+begin
+insert into hospitalhistory 
+values(
+default,new.hid,new.address ,old.address,new.contactNo,old.contactNo,new.creationDate,new.email,old.email,new.hname,new.regNo,"update");
+end //
+
+6)
+delimiter //
+create trigger hospitalDeleteHistory before delete on hospital
+for each row
+begin
+insert into hospitalhistory 
+values(
+default,old.hid,null,old.address,null,old.contactNo,old.creationDate,null,old.email,old.hname,old.regNo,"delete");
+end //
+
+

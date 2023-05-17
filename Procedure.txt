@@ -1,0 +1,44 @@
+1)
+
+Delimiter @
+CREATE PROCEDURE FIND_HOSPITAL_bY_LOGINID(IN loginId INT)
+BEGIN 
+    SELECT * FROM hospital h WHERE h.loginId = loginid;
+END @
+Delimiter ;
+
+call FIND_HOSPITAL_bY_LOGINID(1001);
+
+
+2)
+
+Delimiter @
+CREATE PROCEDURE FIND_PARENT_bY_LOGINID(IN loginId INT)
+BEGIN 
+    SELECT * FROM parent p WHERE p.loginid= loginId ;
+END @
+Delimiter ;
+
+call FIND_PARENT_bY_LOGINID(1003);
+
+3)
+
+Delimiter @
+CREATE PROCEDURE FIND_CHILD_bY_PARENTID(IN pid INT)
+BEGIN 
+    SELECT * FROM child c WHERE c.pid= pid ;
+END @
+Delimiter ;
+
+call FIND_CHILD_bY_PARENTID(13);
+
+4)
+
+
+Delimiter //
+CREATE PROCEDURE FIND_PARENTID(IN loginId INT)
+BEGIN 
+    SELECT pid FROM parent p WHERE p.loginid= loginId ;
+END //
+
+call FIND_PARENTID(1002);

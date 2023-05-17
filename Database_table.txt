@@ -1,0 +1,156 @@
+Database name:
+
+use child_vaccination_tracker;
+
+--------------------------------------------------------------------
+Tables 
+
+master table -Login , parent , hospital
+
+
+--------------------------------------------------------------------
+1)
+
+drop table if exists parent;
+create table parent(
+	pid int primary key auto_increment,
+    firstName varchar(45) not null,
+    lastName varchar(45) not null,
+    email varchar(25) not null,
+    mobileNo bigint not null check(length (mobileNo)=10),
+    address varchar(50) not null,
+    loginId int not null unique,
+    adharNo bigint not null unique,
+    creationDate date default (current_date)
+);
+
+
+2)
+
+create table login(
+  loginId int primary key auto_increment,
+  password varchar(20) not null,
+  roleId int,
+  username varchar(40) not null
+  )
+  auto_increment=1000;
+
+  
+ 3)
+  
+drop table if exists hospital;
+create table hospital(
+	hid int auto_increment primary key,
+    hname varchar(45) not null,
+    email varchar(30) not null,
+    contactNo Bigint not null,
+    address varchar(50) not null,
+    loginId int unique not null,
+    regNo varchar(25) unique,
+    creationDate date default (current_date),
+	foreign key fk_lid(loginId) references login(loginId) on update cascade on delete cascade
+)
+auto_increment=500;
+
+
+4)
+
+drop table if exists child;
+create table child(
+	cid int primary key auto_increment,
+    fname varchar(30) not null,
+    lname varchar(30) not null,
+    pid int,
+    dob date,
+    foreign key fk_pid(pid) references parent(pid) on delete cascade
+)
+auto_increment=700;
+
+
+5)
+
+drop table if exists vaccine_details;
+create table vaccine_details(
+	vid int primary key auto_increment,
+    vname varchar(30) not null,
+    brand varchar(30) not null,
+    description varchar(100) not null,
+    type varchar(15) not null,
+    price decimal(8,2) not null
+);
+
+
+6)
+
+drop table if exists vaccine_progress;
+create table vaccine_progress(
+	
+    vpid int primary key auto_increment,
+    childId int,
+    hid int,
+    pid int,
+    vid int,
+    status varchar(30),
+    expectedDate date not null,
+    actualDate date not null,
+    price decimal(10,2),
+    foreign key fk_cid(childId) references child(cid) on update cascade,
+	foreign key fk_pid(pid) references parent(pid) on update cascade,
+    foreign key fk_hid(hid) references hospital(hid) on update cascade,
+    foreign key fk_vid(vid) references vaccine_details(vid) on update cascade
+)
+auto_increment=800;
+
+
+7)
+
+drop table if exists role_table;
+create table role_table(
+	roleId int primary key,
+	rname varchar(20) not null,
+	description varchar(45) not null
+);
+
+
+8)
+
+drop table if exists parent;
+create table parent(
+	pid int primary key auto_increment,
+    firstName varchar(45) not null,
+    lastName varchar(45) not null,
+    email varchar(25) not null,
+    mobileNo bigint not null check(length (mobileNo)=10),
+    address varchar(50) not null,
+    loginId int not null unique,
+    adharNo bigint not null unique,
+    creationDate date default (current_date),
+	foreign key fk_rid(loginId) references login(loginId) on update cascade on delete cascade
+)
+auto_increment=100;
+alter table parent add constraint fk_rid foreign key(loginId) references login(loginId) on update cascade on delete cascade;
+
+9)
+
+ ALTER TABLE hospital
+MODIFY COLUMN email varchar(30) not null,
+ADD UNIQUE INDEX `email_UNIQUE` (`email` ASC) VISIBLE;
+
+DESC HOSPITAL;
+ALTER TABLE `child_vaccination_tracker`.`login` 
+CHANGE COLUMN `username` `username` VARCHAR(40) NOT NULL ,
+ADD UNIQUE INDEX `username_UNIQUE` (`username` ASC) VISIBLE;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
